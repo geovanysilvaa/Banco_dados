@@ -34,6 +34,7 @@ CREATE DATABASE nome;
 -- Apagar banco de dados
 DROP DATABASE nome;
 
+-- Apaga se existir
 DROP DATABASE IF EXISTS nome_base;
 
 
@@ -56,9 +57,16 @@ DROP TABLE alunos;
 -- =========================
 
 -- Inserir dados
-INSERT INTO alunos (id, nome)
-VALUES (1, 'geovany');
 
+INSERT INTO alunos (id, nome) VALUES (1, 'geovany');
+
+INSERT INTO
+alunos (id, nome)
+VALUES
+(1, 'geovany'),
+(2, 'geovany'),
+(3, 'geovany'),
+(4, 'geovany');
 
 -- =========================
 --  TRUNCATE (limpar tabela)
