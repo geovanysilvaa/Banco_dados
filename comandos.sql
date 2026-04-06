@@ -125,3 +125,12 @@ ALTER TABLE alunos RENAME TO estudantes;
 -- Adicionar chave estrangeira depois da tabela já criada
 ALTER TABLE matriculas ADD CONSTRAINT fk_aluno FOREIGN KEY (aluno_id) REFERENCES alunos(id);
 
+-- =========================
+--  UPDATE
+-- =========================
+UPDATE nome_coluna
+SET coluna1 = valor1, coluna2 = valor2
+WHERE condicao;
+
+UPDATE professor
+SET salario = 15000, titulacao = 'Doutor';

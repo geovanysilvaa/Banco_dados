@@ -34,3 +34,4 @@ VALUES
 (99, 'Wanderson de Vansconcelos','Doutor',7120.00);
 
 SELECT * FROM professor;
+
