@@ -187,11 +187,10 @@ WHERE coluna BETWEEN valor1 AND valor2;
 WHERE coluna IN (valor1, valor2);
 -- verifica se o valor está dentro de uma lista de opções
 
--- LIKE
+-- LIKE e tambem ______
 WHERE coluna LIKE 'A%';   -- começa com A
 WHERE coluna LIKE '%a';   -- termina com a
 WHERE coluna LIKE '%a%';  -- contém a
-
 
 -- =========================
 --  CURRENT (DATA E HORA)
@@ -208,3 +207,10 @@ CURRENT_TIME
 -- Data e hora
 CURRENT_TIMESTAMP
 -- data + hora atual
+
+
+-- =========================
+--  DELETE
+-- =========================
+
+DELETE FROM nome_tabela WHERE condição;
