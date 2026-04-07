@@ -3,53 +3,61 @@
 -- =========================
 
 -- Entrar no PostgreSQL
--- psql -U postgres
+psql -U usuario
+-- abre o banco via terminal
 
 -- Entrar em um banco específico
--- psql -U postgres -d nome_do_banco
+psql -U usuario -d nome_do_banco
+-- conecta direto em um banco
 
--- Listar bancos de dados
--- \l
+-- Listar bancos
+\l
+-- mostra todos os bancos
 
 -- Conectar em um banco
--- \c nome_do_banco
+\c nome_do_banco
+-- troca de banco
 
--- Listar tabelas do banco atual
--- \dt
+-- Listar tabelas
+\dt
+-- mostra tabelas do banco
 
--- Ver estrutura de uma tabela
--- \d nome_da_tabela
+-- Ver estrutura da tabela
+\d nome_da_tabela
+-- mostra colunas e tipos
 
--- Sair do psql
--- \q
+-- Sair
+\q
+-- sai do psql
 
 
 -- =========================
---  COMANDOS SQL BÁSICOS
+--  BANCO DE DADOS
 -- =========================
 
--- Criar banco de dados
+-- Criar banco
 CREATE DATABASE nome;
+-- cria um novo banco
 
--- Apagar banco de dados
+-- Apagar banco
 DROP DATABASE nome;
-
--- Apaga se existir
-DROP DATABASE IF EXISTS nome_base;
+-- remove o banco
 
 
 -- =========================
 --  TABELAS
 -- =========================
 
-Criar tabela
-CREATE TABLE alunos (
+-- Criar tabela
+CREATE TABLE nome_tabela (
     id INT PRIMARY KEY,
-    nome VARCHAR(50)
+    coluna VARCHAR(50)
 );
+-- cria estrutura da tabela
 
 -- Apagar tabela
-DROP TABLE alunos;
+DROP TABLE nome_tabela;
+-- remove tabela
 
 
 -- =========================
@@ -57,37 +65,35 @@ DROP TABLE alunos;
 -- =========================
 
 -- Inserir dados
-
-INSERT INTO alunos (id, nome) VALUES (1, 'geovany');
-
-INSERT INTO
-alunos (id, nome)
-VALUES
-(1, 'geovany'),
-(2, 'geovany'),
-(3, 'geovany'),
-(4, 'geovany');
-
--- =========================
---  TRUNCATE (limpar tabela)
--- =========================
-
--- Limpa todos os dados da tabela
-TRUNCATE TABLE alunos;
-
--- Limpa e reinicia relações (FK)
-TRUNCATE TABLE alunos CASCADE;
+INSERT INTO nome_tabela (coluna1, coluna2)
+VALUES (valor1, valor2);
+-- adiciona dados na tabela
 
 
 -- =========================
---  FOREIGN KEY (REFERENCES)
+--  TRUNCATE
 -- =========================
 
-CREATE TABLE matriculas (
+-- Limpar tabela
+TRUNCATE TABLE nome_tabela;
+-- apaga todos os dados
+
+-- Limpar com dependências
+TRUNCATE TABLE nome_tabela CASCADE;
+-- apaga dados mesmo com FK
+
+
+-- =========================
+--  FOREIGN KEY
+-- =========================
+
+-- Criar com FK
+CREATE TABLE outra_tabela (
     id INT PRIMARY KEY,
-    aluno_id INT,
-    FOREIGN KEY (aluno_id) REFERENCES alunos(id)
+    fk_id INT,
+    FOREIGN KEY (fk_id) REFERENCES nome_tabela(id)
 );
+-- cria relação entre tabelas
 
 
 -- =========================
@@ -95,42 +101,110 @@ CREATE TABLE matriculas (
 -- =========================
 
 -- Adicionar coluna
-ALTER TABLE alunos ADD COLUMN idade INT;
+ALTER TABLE nome_tabela ADD COLUMN coluna tipo;
+-- cria nova coluna
 
 -- Remover coluna
-ALTER TABLE alunos DROP COLUMN idade;
+ALTER TABLE nome_tabela DROP COLUMN coluna;
+-- remove coluna
 
--- Alterar tipo da coluna
-ALTER TABLE alunos ALTER COLUMN idade TYPE SMALLINT;
+-- Alterar tipo
+ALTER TABLE nome_tabela ALTER COLUMN coluna TYPE tipo;
+-- muda tipo da coluna
 
 -- NOT NULL
-ALTER TABLE alunos ALTER COLUMN nome SET NOT NULL;
+ALTER TABLE nome_tabela ALTER COLUMN coluna SET NOT NULL;
+-- não permite vazio
+
+-- Remover NOT NULL
+ALTER TABLE nome_tabela ALTER COLUMN coluna DROP NOT NULL;
+-- permite vazio
 
 -- DEFAULT
-ALTER TABLE alunos ALTER COLUMN idade SET DEFAULT 18;
+ALTER TABLE nome_tabela ALTER COLUMN coluna SET DEFAULT valor;
+-- valor padrão automático
 
 -- Remover DEFAULT
-ALTER TABLE alunos ALTER COLUMN idade DROP DEFAULT;
+ALTER TABLE nome_tabela ALTER COLUMN coluna DROP DEFAULT;
+-- remove valor padrão
 
 -- Renomear coluna
-ALTER TABLE alunos RENAME COLUMN nome TO nome_novo;
+ALTER TABLE nome_tabela RENAME COLUMN antigo TO novo;
+-- muda nome da coluna
 
--- Renomear uma tabela
-ALTER TABLE alunos RENAME TO estudantes;
+-- Renomear tabela
+ALTER TABLE nome_tabela RENAME TO novo_nome;
+-- muda nome da tabela
+
 
 -- =========================
---  CONSTRAINT FOREIGN KEY (ADD CONSTRAINT)
+--  CONSTRAINT FOREIGN KEY (ALTER)
 -- =========================
 
--- Adicionar chave estrangeira depois da tabela já criada
-ALTER TABLE matriculas ADD CONSTRAINT fk_aluno FOREIGN KEY (aluno_id) REFERENCES alunos(id);
+-- Adicionar FK depois da tabela
+ALTER TABLE nome_tabela
+ADD CONSTRAINT nome_fk
+FOREIGN KEY (coluna)
+REFERENCES outra_tabela(coluna);
+-- cria relação depois da tabela pronta
+
 
 -- =========================
 --  UPDATE
 -- =========================
-UPDATE nome_coluna
-SET coluna1 = valor1, coluna2 = valor2
-WHERE condicao;
 
-UPDATE professor
-SET salario = 15000, titulacao = 'Doutor';
+-- Atualizar dados
+UPDATE nome_tabela
+SET coluna = valor
+WHERE condicao;
+-- altera dados existentes
+
+-- Atualizar várias colunas
+UPDATE nome_tabela
+SET coluna1 = valor1,
+    coluna2 = valor2
+WHERE condicao;
+-- altera várias colunas ao mesmo tempo
+
+
+-- =========================
+--  OPERADORES LÓGICOS (WHERE)
+-- =========================
+
+-- =  (igual)
+-- <> (diferente)
+-- >  <  >=  <=
+
+AND
+OR
+NOT
+
+-- BETWEEN
+WHERE coluna BETWEEN valor1 AND valor2;
+-- verifica se o valor está dentro de um intervalo (entre dois valores)
+
+-- IN
+WHERE coluna IN (valor1, valor2);
+-- verifica se o valor está dentro de uma lista de opções
+
+-- LIKE
+WHERE coluna LIKE 'A%';   -- começa com A
+WHERE coluna LIKE '%a';   -- termina com a
+WHERE coluna LIKE '%a%';  -- contém a
+
+
+-- =========================
+--  CURRENT (DATA E HORA)
+-- =========================
+
+-- Data atual
+CURRENT_DATE
+-- só data
+
+-- Hora atual
+CURRENT_TIME
+-- só hora
+
+-- Data e hora
+CURRENT_TIMESTAMP
+-- data + hora atual
