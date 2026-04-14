@@ -214,3 +214,38 @@ CURRENT_TIMESTAMP
 -- =========================
 
 DELETE FROM nome_tabela WHERE condição;
+
+
+
+GRANT permissão[,...]
+ON objeto
+TO usuario_ou_role[,...]
+[WITH GRANT OPTION];
+
+
+
+CREATE USER geovany WITH PASSWORD '1234';
+CREATE USER teodora WITH PASSWORD '1234';
+
+CREATE ROLE developer;
+
+GRANT developer TO geovany;
+GRANT developer TO teodora;
+
+GRANT SELECT ON  hospedes TO geovany;
+
+GRANT SELECT ON  hospedes TO teodora WITH GRANT OPTION;
+
+GRANT SELECT, INSERT ON hospedes TO analizar;
+
+GRANT UPDATE, INSERT ON hospedes TO geovany;
+
+GRANT ALL ON hospedes TO teodora WITH GRANT OPTION;
+
+SELECT rolname,rolsuper,rolcreaterole, rolcreatedb
+FROM pg_roles;
+
+SELECT current_user;
+SELECT session_user;
+
+\du
