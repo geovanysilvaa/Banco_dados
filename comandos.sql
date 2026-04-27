@@ -24,6 +24,7 @@ psql -U usuario -d nome_do_banco
 
 -- Ver estrutura da tabela
 \d nome_da_tabela
+
 -- mostra colunas e tipos
 
 -- Sair
@@ -217,26 +218,32 @@ DELETE FROM nome_tabela WHERE condição;
 
 
 
+
 GRANT permissão[,...]
 ON objeto
 TO usuario_ou_role[,...]
 [WITH GRANT OPTION];
 
-
-
 CREATE USER geovany WITH PASSWORD '1234';
 CREATE USER teodora WITH PASSWORD '1234';
+CREATE USER aluno01 WITH PASSWORD '1234';
+CREATE USER aluno02 WITH PASSWORD '1234';
 
 CREATE ROLE developer;
 
 GRANT developer TO geovany;
 GRANT developer TO teodora;
 
+
 GRANT SELECT ON  hospedes TO geovany;
 
 GRANT SELECT ON  hospedes TO teodora WITH GRANT OPTION;
 
+GRANT INSERT ON consumos,quartos,reservas,servicos,hospedes TO aluno02;
+
 GRANT SELECT, INSERT ON hospedes TO analizar;
+
+GRANT INSERT ON hospedes TO analizar;
 
 GRANT UPDATE, INSERT ON hospedes TO geovany;
 
@@ -248,4 +255,30 @@ FROM pg_roles;
 SELECT current_user;
 SELECT session_user;
 
+
+-- listar usuarios do postgresSQL
 \du
+
+-- Verificar dono da sessão
+SELECT session_user;
+
+-- Consultar o usuario atual
+SELECT current_user;
+
+
+SET ROLE geovany;
+
+\c nome_da_base nome_usuario
+
+-- Excluir usuario
+DROP USER nome_do_usuario;
+
+-- Excluir Role(grupo):
+DROP ROLE nome_da_role;
+
+-- Alterar posse para outro usuario
+ALTER TABLE tabela OWNER TO novo_usuario;
+
+
+INSERT INTO servicos (id, descricao,valor)
+VALUES (01,'descricao',200);
