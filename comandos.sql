@@ -282,3 +282,19 @@ ALTER TABLE tabela OWNER TO novo_usuario;
 
 INSERT INTO servicos (id, descricao,valor)
 VALUES (01,'descricao',200);
+
+REVOKE permissão[,...]
+ON objecto
+FROM usuario_ou_role[,...];
+
+REVOKE GRANT OPTION permissão
+ON objecto
+FROM aluno01;
+
+REVOKE select
+on hospedes,quartos,reservas,servicos,consumos
+FROM aluno01;
+
+REVOKE SELECT ON disciplina FROM editores;
+
+\z nome_da_tabela;
