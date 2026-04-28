@@ -4,33 +4,31 @@
 
 -- Entrar no PostgreSQL
 psql -U usuario
--- abre o banco via terminal
+-- Abre o terminal do PostgreSQL com o usuário informado
 
 -- Entrar em um banco específico
 psql -U usuario -d nome_do_banco
--- conecta direto em um banco
+-- Já conecta direto em um banco específico
 
 -- Listar bancos
 \l
--- mostra todos os bancos
+-- Lista todos os bancos disponíveis
 
 -- Conectar em um banco
 \c nome_do_banco
--- troca de banco
+-- Troca para o banco desejado
 
 -- Listar tabelas
 \dt
--- mostra tabelas do banco
+-- Mostra todas as tabelas do banco atual
 
 -- Ver estrutura da tabela
 \d nome_da_tabela
+-- Mostra colunas, tipos e restrições da tabela
 
--- mostra colunas e tipos
-
--- Sair
+-- Sair do psql
 \q
--- sai do psql
-
+-- Encerra o terminal do PostgreSQL
 
 -- =========================
 --  BANCO DE DADOS
@@ -38,12 +36,11 @@ psql -U usuario -d nome_do_banco
 
 -- Criar banco
 CREATE DATABASE nome;
--- cria um novo banco
+-- Cria um novo banco de dados
 
 -- Apagar banco
 DROP DATABASE nome;
--- remove o banco
-
+-- Remove o banco (CUIDADO: perde tudo)
 
 -- =========================
 --  TABELAS
@@ -51,15 +48,14 @@ DROP DATABASE nome;
 
 -- Criar tabela
 CREATE TABLE nome_tabela (
-    id INT PRIMARY KEY,
-    coluna VARCHAR(50)
+id INT PRIMARY KEY,
+coluna VARCHAR(50)
 );
--- cria estrutura da tabela
+-- Define estrutura da tabela com chave primária
 
 -- Apagar tabela
 DROP TABLE nome_tabela;
--- remove tabela
-
+-- Remove a tabela completamente
 
 -- =========================
 --  INSERT
@@ -68,8 +64,7 @@ DROP TABLE nome_tabela;
 -- Inserir dados
 INSERT INTO nome_tabela (coluna1, coluna2)
 VALUES (valor1, valor2);
--- adiciona dados na tabela
-
+-- Insere uma nova linha na tabela
 
 -- =========================
 --  TRUNCATE
@@ -77,25 +72,23 @@ VALUES (valor1, valor2);
 
 -- Limpar tabela
 TRUNCATE TABLE nome_tabela;
--- apaga todos os dados
+-- Remove TODOS os dados rapidamente (sem WHERE)
 
 -- Limpar com dependências
 TRUNCATE TABLE nome_tabela CASCADE;
--- apaga dados mesmo com FK
-
+-- Remove dados mesmo se houver relações (FK)
 
 -- =========================
 --  FOREIGN KEY
 -- =========================
 
--- Criar com FK
+-- Criar tabela com chave estrangeira
 CREATE TABLE outra_tabela (
-    id INT PRIMARY KEY,
-    fk_id INT,
-    FOREIGN KEY (fk_id) REFERENCES nome_tabela(id)
+id INT PRIMARY KEY,
+fk_id INT,
+FOREIGN KEY (fk_id) REFERENCES nome_tabela(id)
 );
--- cria relação entre tabelas
-
+-- Cria relação entre tabelas (integridade referencial)
 
 -- =========================
 --  ALTER TABLE
@@ -103,198 +96,170 @@ CREATE TABLE outra_tabela (
 
 -- Adicionar coluna
 ALTER TABLE nome_tabela ADD COLUMN coluna tipo;
--- cria nova coluna
+-- Adiciona nova coluna
 
 -- Remover coluna
 ALTER TABLE nome_tabela DROP COLUMN coluna;
--- remove coluna
+-- Remove coluna existente
 
--- Alterar tipo
+-- Alterar tipo da coluna
 ALTER TABLE nome_tabela ALTER COLUMN coluna TYPE tipo;
--- muda tipo da coluna
+-- Muda o tipo de dado
 
--- NOT NULL
+-- Definir NOT NULL
 ALTER TABLE nome_tabela ALTER COLUMN coluna SET NOT NULL;
--- não permite vazio
+-- Obriga preenchimento
 
 -- Remover NOT NULL
 ALTER TABLE nome_tabela ALTER COLUMN coluna DROP NOT NULL;
--- permite vazio
+-- Permite valores nulos
 
--- DEFAULT
+-- Definir valor padrão
 ALTER TABLE nome_tabela ALTER COLUMN coluna SET DEFAULT valor;
--- valor padrão automático
+-- Valor automático ao inserir
 
--- Remover DEFAULT
+-- Remover valor padrão
 ALTER TABLE nome_tabela ALTER COLUMN coluna DROP DEFAULT;
--- remove valor padrão
 
 -- Renomear coluna
 ALTER TABLE nome_tabela RENAME COLUMN antigo TO novo;
--- muda nome da coluna
 
 -- Renomear tabela
 ALTER TABLE nome_tabela RENAME TO novo_nome;
--- muda nome da tabela
-
 
 -- =========================
---  CONSTRAINT FOREIGN KEY (ALTER)
+--  CONSTRAINT (FK via ALTER)
 -- =========================
 
--- Adicionar FK depois da tabela
 ALTER TABLE nome_tabela
 ADD CONSTRAINT nome_fk
 FOREIGN KEY (coluna)
 REFERENCES outra_tabela(coluna);
--- cria relação depois da tabela pronta
-
+-- Adiciona chave estrangeira após tabela já criada
 
 -- =========================
 --  UPDATE
 -- =========================
 
--- Atualizar dados
 UPDATE nome_tabela
 SET coluna = valor
 WHERE condicao;
--- altera dados existentes
+-- Atualiza dados específicos
 
--- Atualizar várias colunas
 UPDATE nome_tabela
 SET coluna1 = valor1,
-    coluna2 = valor2
+coluna2 = valor2
 WHERE condicao;
--- altera várias colunas ao mesmo tempo
-
+-- Atualiza múltiplas colunas
 
 -- =========================
---  OPERADORES LÓGICOS (WHERE)
+--  OPERADORES (WHERE)
 -- =========================
 
--- =  (igual)
--- <> (diferente)
--- >  <  >=  <=
+-- Comparação:
+-- = igual
+-- <> diferente
+-- > < >= <=
 
-AND
-OR
-NOT
+-- Lógicos:
+AND  -- E
+OR   -- OU
+NOT  -- NÃO
 
--- BETWEEN
+-- Intervalo
 WHERE coluna BETWEEN valor1 AND valor2;
--- verifica se o valor está dentro de um intervalo (entre dois valores)
 
--- IN
+-- Lista de valores
 WHERE coluna IN (valor1, valor2);
--- verifica se o valor está dentro de uma lista de opções
 
--- LIKE e tambem ______
+-- Busca por padrão (texto)
 WHERE coluna LIKE 'A%';   -- começa com A
 WHERE coluna LIKE '%a';   -- termina com a
-WHERE coluna LIKE '%a%';  -- contém a
+WHERE coluna LIKE '%a%';  -- contém "a"
 
 -- =========================
---  CURRENT (DATA E HORA)
+--  DATA E HORA
 -- =========================
 
--- Data atual
-CURRENT_DATE
--- só data
-
--- Hora atual
-CURRENT_TIME
--- só hora
-
--- Data e hora
-CURRENT_TIMESTAMP
--- data + hora atual
-
+CURRENT_DATE       -- Data atual
+CURRENT_TIME       -- Hora atual
+CURRENT_TIMESTAMP  -- Data e hora
 
 -- =========================
 --  DELETE
 -- =========================
 
 DELETE FROM nome_tabela WHERE condição;
+-- Remove registros específicos (use com cuidado)
 
-
-
-
-GRANT permissão[,...]
-ON objeto
-TO usuario_ou_role[,...]
-[WITH GRANT OPTION];
+-- =========================
+--  USUÁRIOS E PERMISSÕES
+-- =========================
 
 CREATE USER geovany WITH PASSWORD '1234';
-CREATE USER teodora WITH PASSWORD '1234';
-CREATE USER aluno01 WITH PASSWORD '1234';
-CREATE USER aluno02 WITH PASSWORD '1234';
+-- Cria usuário
 
 CREATE ROLE developer;
+-- Cria grupo (role)
 
 GRANT developer TO geovany;
-GRANT developer TO teodora;
+-- Associa usuário a uma role
 
-
-GRANT SELECT ON  hospedes TO geovany;
-
-GRANT SELECT ON  hospedes TO teodora WITH GRANT OPTION;
-
-GRANT INSERT ON consumos,quartos,reservas,servicos,hospedes TO aluno02;
-
-GRANT SELECT, INSERT ON hospedes TO analizar;
-
-GRANT INSERT ON hospedes TO analizar;
-
-GRANT UPDATE, INSERT ON hospedes TO geovany;
+GRANT SELECT ON hospedes TO geovany;
+-- Permite leitura
 
 GRANT ALL ON hospedes TO teodora WITH GRANT OPTION;
+-- Permite tudo + pode repassar permissões
 
-SELECT rolname,rolsuper,rolcreaterole, rolcreatedb
+-- Ver roles
+SELECT rolname, rolsuper, rolcreaterole, rolcreatedb
 FROM pg_roles;
 
+-- Usuário atual
 SELECT current_user;
+
+-- Usuário da sessão
 SELECT session_user;
 
-
--- listar usuarios do postgresSQL
+-- Listar usuários
 \du
 
--- Verificar dono da sessão
-SELECT session_user;
-
--- Consultar o usuario atual
-SELECT current_user;
-
-
+-- Trocar usuário ativo
 SET ROLE geovany;
 
+-- Conectar com usuário
 \c nome_da_base nome_usuario
 
--- Excluir usuario
+-- Remover usuário
 DROP USER nome_do_usuario;
 
--- Excluir Role(grupo):
+-- Remover role
 DROP ROLE nome_da_role;
 
--- Alterar posse para outro usuario
+-- Transferir dono de tabela
 ALTER TABLE tabela OWNER TO novo_usuario;
 
+-- =========================
+--  REVOKE (REMOVER PERMISSÃO)
+-- =========================
 
-INSERT INTO servicos (id, descricao,valor)
-VALUES (01,'descricao',200);
+REVOKE permissão ON objeto FROM usuario;
 
-REVOKE permissão[,...]
-ON objecto
-FROM usuario_ou_role[,...];
+-- Remove permissão concedida
 
-REVOKE GRANT OPTION permissão
-ON objecto
+REVOKE GRANT OPTION FOR permissão
+ON objeto
 FROM aluno01;
+-- Remove apenas o direito de repassar permissões
 
-REVOKE select
-on hospedes,quartos,reservas,servicos,consumos
+REVOKE SELECT
+ON hospedes, quartos, reservas
 FROM aluno01;
+-- Remove acesso de leitura
 
-REVOKE SELECT ON disciplina FROM editores;
+-- =========================
+--  VER PERMISSÕES
+-- =========================
 
 \z nome_da_tabela;
+-- Mostra quem tem acesso à tabela
