@@ -2,7 +2,7 @@
 -- Nome: Wanderson de Vasconcelos
 -- Título: Sistema de Locação de Filmes
 -- Nome: Geovany de Olveira Silva batista
--- Data entrega:
+-- Data entrega:07/04/26
 ------------------------------------------------------
 
 \c postgres
