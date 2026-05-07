@@ -213,3 +213,8 @@ OWNER TO novo_usuario;
 
 \z nome_da_tabela
 -- Mostra quem tem acesso à tabela
+
+
+-- Conectar com outro usuário
+\c nome_do_banco nome_usuario
+-- Conecta no banco faculdade usando o usuário aluno

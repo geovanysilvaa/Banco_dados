@@ -15,10 +15,13 @@ Banco_dados/
 │  ├─ comandos_DDL.sql
 │  ├─ comandos_DML.sql
 │  └─ comandos_DCL.sql
+│  └─ comandos_TCL.sql
 ├─ exercicios/
 │  ├─ exercicios01.sql
 │  ├─ exercicios02.sql
 │  └─ exercicios03.sql
+│  └─ exercicios04.sql
+│  └─ exercicios05.sql
 ├─ base.sql
 ├─ ComandosDelete.sql
 ├─ ComandosLIKE.sql
@@ -38,6 +41,7 @@ Banco_dados/
 * DDL
 * DML
 * DCL
+* TCL
 * tipos de dados
 * criação de tabelas
 * manipulação de registros
