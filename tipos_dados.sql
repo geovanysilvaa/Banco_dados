@@ -107,3 +107,20 @@ ativo BOOLEAN;
 -- Armazena arquivos binários como imagens, PDFs e documentos
 -- Exemplo: foto de perfil
 foto_perfil BYTEA;
+
+
+-- =========================
+--  CURRENT (DATA E HORA)
+-- =========================
+
+-- Data atual
+CURRENT_DATE
+-- só data
+
+-- Hora atual
+CURRENT_TIME
+-- só hora
+
+-- Data e hora
+CURRENT_TIMESTAMP
+-- data + hora atual

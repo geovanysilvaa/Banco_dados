@@ -117,7 +117,7 @@ REVOKE SELECT
 ON professor
 FROM aluno;
 
-
+ 
 -- Exemplo em role
 REVOKE INSERT
 ON disciplina
@@ -140,7 +140,8 @@ FROM coordenador;
 -- =========================================================
 -- CONSULTAR ROLES E USUÁRIOS
 -- =========================================================
-
+ 
+ 
 SELECT rolname, rolsuper, rolcreaterole, rolcreatedb
 FROM pg_roles;
 -- Lista usuários e roles existentes
@@ -183,6 +184,9 @@ SET ROLE nome_role;
 psql -U novo_usuario -d nome_do_banco
 -- Entra novamente usando outro usuário
 
+-- Conectar com outro usuário
+\c nome_do_banco nome_usuario
+-- Conecta no banco faculdade usando o usuário aluno
 
 
 -- =========================================================
@@ -214,7 +218,3 @@ OWNER TO novo_usuario;
 \z nome_da_tabela
 -- Mostra quem tem acesso à tabela
 
-
--- Conectar com outro usuário
-\c nome_do_banco nome_usuario
--- Conecta no banco faculdade usando o usuário aluno
