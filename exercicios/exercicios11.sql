@@ -159,3 +159,16 @@ SELECT
 descricao AS servico,
 valor AS preco
 FROM servicos;
+
+
+SELECT nom,data_nascimento
+FROM hospedes
+WHERE NOT data_nascimento BETWEEN '1980-01-01' AND '1989-12-31';
+
+SELECT * FROM hospedes WHERE teleno IS NULL;
+
+SELECT * FROM hospedes WHERE teleno IS NOT NULL;
+
+SELECT * FROM quartos WHERE (tipo ='Suite' OR tipo = 'Luxo')
+AND valor_diaria > 300
+AND status ='Livre';
