@@ -1,167 +1,261 @@
--- Exercícios DQL — Sistema de Hotelaria PostgreSQL
+-- =========================================================
+-- DQL (Data Query Language)
+-- Banco de Dados II
+-- Prof. Dr. Wanderson de Vasconcelos
+-- =========================================================
 
--- Exercício 1 — DISTINCT
+-- SELECT
+-- Recupera dados de uma ou mais tabelas.
 
--- Liste todos os tipos de quartos sem repetir.
+SELECT coluna1, coluna2
+FROM tabela;
+
+
+-- DISTINCT
+-- Remove registros duplicados da consulta.
 
 SELECT DISTINCT tipo
 FROM quartos;
 
--- Exercício 2 — WHERE
+SELECT DISTINCT status
+FROM quartos;
 
--- Liste todos os quartos livres.
+SELECT DISTINCT tipo, status
+FROM quartos;
 
-SELECT *
-FROM quartos
-WHERE status = 'Livre';
 
--- Exercício 3 — OR
+-- LIMIT
+-- Limita a quantidade de registros retornados.
 
--- Liste quartos do tipo Luxo ou Premium.
+SELECT id, nome, cpf
+FROM hospedes
+ORDER BY id
+LIMIT 5;
 
-SELECT *
-FROM quartos
-WHERE tipo = 'Luxo'
-OR tipo = 'Premium';
 
--- Exercício 4 — NOT
+-- OFFSET
+-- Ignora uma quantidade de registros antes de exibir o resultado.
 
--- Liste quartos que não estão ocupados.
+SELECT id, nome, cpf
+FROM hospedes
+ORDER BY id
+LIMIT 5
+OFFSET 5;
 
-SELECT *
-FROM quartos
-WHERE NOT status = 'Ocupado';
 
--- Exercício 5 — BETWEEN
+-- ALIAS (AS)
+-- Cria um nome temporário para colunas ou tabelas.
 
--- Liste quartos com diária entre 100 e 300 reais.
+SELECT numero, tipo, valor_diaria AS preco
+FROM quartos;
 
-SELECT *
-FROM quartos
-WHERE valor_diaria BETWEEN 100 AND 300;
+SELECT
+    tipo,
+    valor_diaria,
+    valor_diaria * 7 AS valor_semana
+FROM quartos;
 
--- Exercício 6 — LIKE
 
--- Liste hóspedes cujo nome começa com Ana.
+-- ORDER BY
+-- Ordena os resultados da consulta.
 
 SELECT *
 FROM hospedes
-WHERE nome LIKE 'Ana%';
-
--- Exercício 7 — ILIKE
-
--- Liste hóspedes cujo nome contém silva ignorando maiúsculas e minúsculas.
-
-SELECT *
-FROM hospedes
-WHERE nome ILIKE '%silva%';
-
--- Exercício 8 — IS NULL
-
--- Liste reservas sem valor total registrado.
-
-SELECT *
-FROM reservas
-WHERE valor_total IS NULL;
-
--- Exercício 9 — ORDER BY
-
--- Liste quartos ordenados da diária mais cara para a mais barata.
+ORDER BY nome ASC;
 
 SELECT *
 FROM quartos
 ORDER BY valor_diaria DESC;
 
--- Exercício 10 — LIMIT
-
--- Mostre apenas os 3 primeiros hóspedes cadastrados.
-
 SELECT *
-FROM hospedes
-LIMIT 3;
+FROM reservas
+ORDER BY data_entrada DESC, valor_total DESC;
 
--- Exercício 11 — OFFSET
 
--- Pule os 2 primeiros hóspedes e mostre os próximos 3.
-
-SELECT *
-FROM hospedes
-LIMIT 3 OFFSET 2;
-
--- Exercício 12 — Alias com AS
-
--- Mostre número do quarto e valor semanal com desconto.
-
-SELECT
-numero,
-tipo,
-valor_diaria,
-valor_diaria * 7 * 0.9 AS "valor semanal"
-FROM quartos;
-
--- Exercício 13 — ORDER BY ASC
-
--- Liste hóspedes ordenados por data de nascimento crescente.
-
-SELECT nome, data_nascimento
-FROM hospedes
-ORDER BY data_nascimento ASC;
-
--- Exercício 14 — BETWEEN com datas
-
--- Liste hóspedes nascidos entre 1980 e 1990.
-
-SELECT *
-FROM hospedes
-WHERE data_nascimento BETWEEN '1980-01-01' AND '1990-12-31';
-
--- Exercício 15 — LIKE exato
-
--- Liste quartos cujo status seja Livre usando LIKE.
+-- WHERE
+-- Filtra registros que atendem a uma condição.
 
 SELECT *
 FROM quartos
-WHERE status LIKE 'Livre';
+WHERE status = 'Livre';
 
--- Exercício 16 — WHERE com AND
 
--- Liste quartos livres com diária menor que 200.
+-- Operadores Relacionais
+-- Realizam comparações entre valores.
+
+SELECT *
+FROM quartos
+WHERE valor_diaria > 200;
+
+SELECT *
+FROM quartos
+WHERE valor_diaria <= 400;
+
+SELECT *
+FROM quartos
+WHERE tipo <> 'Luxo';
+
+
+-- Operadores Lógicos
+-- Combinam múltiplas condições.
+
+SELECT *
+FROM quartos
+WHERE valor_diaria > 150
+  AND status = 'Livre';
 
 SELECT *
 FROM quartos
 WHERE status = 'Livre'
-AND valor_diaria < 200;
+   OR status = 'Manutenção';
 
--- Exercício 17 — ILIKE começo
+SELECT *
+FROM quartos
+WHERE NOT status = 'Ocupado';
 
--- Liste hóspedes cujo nome começa com joão ignorando maiúsculas.
+
+-- LIKE
+-- Procura padrões em textos.
 
 SELECT *
 FROM hospedes
-WHERE nome ILIKE 'joão%';
+WHERE nome LIKE 'M%';
 
--- Exercício 18 — NOT com BETWEEN
+-- ILIKE
+-- Procura padrões em textos sem diferenciar
+-- letras maiúsculas e minúsculas (PostgreSQL).
 
--- Liste quartos cuja diária NÃO esteja entre 150 e 300.
+SELECT *
+FROM hospedes
+WHERE nome ILIKE 'M%';
+
+-- Exemplos:
+-- 'Maria'  -> encontrado
+-- 'maria'  -> encontrado
+-- 'MARIA'  -> encontrado
+
+
+SELECT *
+FROM hospedes
+WHERE nome ILIKE '%silva';
+
+-- Encontra:
+-- João Silva
+-- joão silva
+-- JOÃO SILVA
+
+
+SELECT *
+FROM hospedes
+WHERE nome ILIKE '%souza%';
+
+-- Encontra qualquer nome que contenha "souza",
+-- independente de letras maiúsculas ou minúsculas.
+
+-- BETWEEN
+-- Filtra valores dentro de um intervalo.
 
 SELECT *
 FROM quartos
-WHERE NOT valor_diaria BETWEEN 150 AND 300;
+WHERE valor_diaria BETWEEN 200 AND 500;
 
--- Exercício 19 — LIMIT + ORDER BY
 
--- Liste os 5 quartos mais caros.
+-- IS NULL
+-- Verifica se um campo não possui valor.
+
+SELECT *
+FROM hospedes
+WHERE telefone IS NULL;
+
+
+-- IS NOT NULL
+-- Verifica se um campo possui valor.
+
+SELECT *
+FROM hospedes
+WHERE email IS NOT NULL;
+
+
+-- Exemplo Combinado
+-- Uso de operadores relacionais e lógicos.
 
 SELECT *
 FROM quartos
-ORDER BY valor_diaria DESC
-LIMIT 5;
+WHERE (tipo = 'Suíte' OR tipo = 'Luxo')
+  AND valor_diaria > 300
+  AND status = 'Livre';
 
--- Exercício 20 — Alias simples
 
--- Mostre descrição e valor do serviço usando alias.
+-- COUNT()
+-- Conta a quantidade de registros.
+
+SELECT COUNT(*) AS total_reservas
+FROM reservas;
+
+
+-- SUM()
+-- Soma os valores de uma coluna numérica.
+
+SELECT SUM(valor_total) AS soma_reservas
+FROM reservas;
+
+
+-- AVG()
+-- Calcula a média dos valores de uma coluna.
+
+SELECT AVG(valor_diaria) AS media_diaria
+FROM quartos;
+
+
+-- MIN()
+-- Retorna o menor valor da coluna.
+
+SELECT MIN(valor_diaria) AS diaria_minima
+FROM quartos;
+
+
+-- MAX()
+-- Retorna o maior valor da coluna.
+
+SELECT MAX(valor_diaria) AS diaria_maxima
+FROM quartos;
+
+
+-- Funções Combinadas
+-- Resumem informações da tabela.
 
 SELECT
-descricao AS servico,
-valor AS preco
-FROM servicos;
+    COUNT(*) AS total_reservas,
+    SUM(valor_total) AS soma_reservas,
+    AVG(valor_total) AS media_reserva
+FROM reservas;
+
+
+-- ROUND()
+-- Arredonda valores numéricos.
+
+SELECT ROUND(AVG(valor_diaria), 2) AS media_diaria
+FROM quartos;
+
+
+-- TO_CHAR()
+-- Formata números para exibição.
+
+SELECT TO_CHAR(AVG(valor_diaria), '999G999D00') AS media_diaria
+FROM quartos;
+
+
+-- TO_CHAR() COM MOEDA
+-- Exibe valor formatado em reais.
+
+SELECT 'R$ ' || TO_CHAR(AVG(valor_diaria), '999G999D00') AS media_diaria
+FROM quartos;
+
+
+-- TO_CHAR() COM DATA
+-- Formata datas para exibição.
+
+SELECT
+    data_entrada,
+    TO_CHAR(data_entrada, 'DD/MM/YYYY') AS data_formatada
+FROM reservas;
