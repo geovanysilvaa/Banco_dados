@@ -30,17 +30,17 @@ SELECT nome AS cliente FROM hospedes;
 -- 11. Mostre o tipo do quarto como categoria.
 SELECT tipo AS categoria FROM quartos;
 -- 12. Mostre o valor da diária como preco_noite.
-SELECT valor_diaria AS preco_noite FROM quantos;
+SELECT valor_diaria AS preco_noite FROM quartos;
 -- ORDER BY
 
 -- 13. Liste os hóspedes em ordem alfabética.
-SELECT * FROM hospedes ORDER BY nome DESC; 
+SELECT * FROM hospedes ORDER BY nome ASC; 
 -- 14. Liste os quartos do mais caro para o mais barato.
-SELECT * FROM quantos ORDER BY valor_diaria ASC;
+SELECT * FROM quartos ORDER BY valor_diaria DESC;
 -- 15. Liste os serviços do menor valor para o maior.
-SELECT * FROM serviços ORDER BY valor ASC;
+SELECT * FROM servicos ORDER BY valor ASC;
 -- 16. Liste as reservas pela data de entrada mais recente.
-SELECT * FROM reservas ORDER BY data_entrada ASC;
+SELECT * FROM reservas ORDER BY data_entrada DESC;
 
 -- WHERE
 
@@ -51,19 +51,19 @@ SELECT * FROM quartos WHERE valor_diaria > 300;
 -- 19. Mostre os quartos com diária menor que 200.
 SELECT * FROM quartos WHERE valor_diaria < 200;
 -- 20. Mostre os hóspedes que possuem CPF igual a um valor específico.
-SELECT * FROM quartos WHERE cpf = '11100011100';
+SELECT * FROM hospedes WHERE cpf = '11100011100';
 -- LIKE
 
 -- 21. Liste hóspedes cujo nome começa com a letra A.
 SELECT * FROM hospedes WHERE nome LIKE 'A%';
 -- 22. Liste hóspedes cujo nome termina com Silva.
-SELECT * FROM hospedes WHERE nome LIKE '%A';
+SELECT * FROM hospedes WHERE nome LIKE '%Silva';
 -- 23. Liste hóspedes cujo nome contém Souza.
 SELECT *FROM hospedes WHERE nome LIKE '%Souza%';
 -- BETWEEN
 
 -- 24. Liste quartos com diária entre 150 e 400.
-SELECT * FROM quantos WHERE valor_diaria BETWEEN 150 AND 400; 
+SELECT * FROM quartos WHERE valor_diaria BETWEEN 150 AND 400; 
 -- 25. Liste reservas com valor total entre 500 e 2000.
 SELECT * FROM reservas WHERE valor_total BETWEEN 500 AND 2000;
 -- IS NULL e IS NOT NULL
@@ -73,13 +73,15 @@ SELECT * FROM hospedes WHERE telefone IS NULL;
 -- 27. Liste hóspedes com e-mail cadastrado.
 SELECT * FROM hospedes WHERE email IS NOT NULL;
 -- 28. Liste hóspedes sem e-mail.
-
+SELECT *
+FROM hospedes
+WHERE email IS NULL;
 -- Operadores Lógicos
 
 -- 29. Liste quartos com diária maior que 300 e status 'Livre'.
 SELECT * FROM quartos WHERE valor_diaria > 300 AND status = 'Livre';
 -- 30. Liste quartos com status 'Livre' ou 'Manutenção'.
-SELECT * FROM quartos WHERE status = 'Livre' OR 'Manutenção';
+SELECT * FROM quartos WHERE status = 'Livre' OR status = 'Manutenção';
 -- 31. Liste quartos que não estejam ocupados.
 SELECT * FROM quartos WHERE status <> 'Ocupado';
 -- 32. Liste hóspedes cujo nome começa com M e possuem telefone cadastrado.
@@ -87,49 +89,52 @@ SELECT * FROM hospedes WHERE nome LIKE 'M%' AND telefone IS NOT NULL;
 -- COUNT
 
 -- 33. Conte quantos hóspedes existem cadastrados.
-SELECT COUNT(numero) FROM hospedes;
+SELECT COUNT(id) FROM hospedes;
 -- 34. Conte quantos quartos existem.
-
+SELECT COUNT(numero) FROM quartos;
 -- 35. Conte quantas reservas existem.
-
+SELECT COUNT(id) FROM reservas;
 -- SUM
 
 -- 36. Calcule o valor total arrecadado com reservas.
-
+SELECT SUM(valor_total) FROM reservas;
 -- 37. Calcule o valor total dos serviços.
-
+SELECT SUM(valor) FROM servicos;
 -- AVG
 
 -- 38. Calcule a média das diárias dos quartos.
-
+SELECT AVG(valor_diaria) FROM quartos;
 -- 39. Calcule a média do valor das reservas.
-
+SELECT AVG(valor_total) FROM reservas;
 -- MIN e MAX
 
 -- 40. Mostre a menor diária cadastrada.
-
+SELECT MIN(valor_diaria) FROM quartos;
 -- 41. Mostre a maior diária cadastrada.
-
+SELECT MAX(valor_diaria) FROM quartos;
 -- 42. Mostre o menor e o maior valor dos serviços.
-
+SELECT MAX(valor),MIN(valor) FROM servicos;
 -- ROUND
 
 -- 43. Mostre a média das diárias arredondada para 2 casas decimais.
-
+SELECT ROUND(AVG(valor_diaria),2) FROM quartos;
 -- 44. Mostre a média das reservas arredondada para 2 casas decimais.
-
+SELECT ROUND(AVG(valor_total),2) FROM reservas;
 -- TO_CHAR
 
 -- 45. Mostre a média das diárias formatada com duas casas decimais.
-
+SELECT 'R$ ' || TO_CHAR(AVG(valor_diaria),'999G999D00') FROM quartos;
 -- 46. Mostre o total arrecadado com reservas formatado em reais.
-
+SELECT 'R$ ' || to_CHAR(SUM(valor_total), '999G999D00') FROM reservas;
 -- 47. Mostre as datas de entrada das reservas no formato DD/MM/YYYY.
-
+SELECT TO_CHAR(data_entrada, 'DD/MM/YYYY') FROM reservas;
 -- Desafio (misturando tudo)
 
 -- 48. Liste os quartos do tipo 'Luxo' com diária maior que 400, ordenados do mais caro para o mais barato.
+SELECT * FROM
+quartos WHERE tipo = 'Luxo' AND valor_diaria > 400 ORDER BY valor_diaria DESC;
 
 -- 49. Conte quantos quartos possuem status 'Livre'.
-
+SELECT COUNT(*) FROM quartos WHERE status = 'Livre';
 -- 50. Mostre a média das diárias dos quartos do tipo 'Luxo', arredondada para duas casas decimais.
+SELECT ROUND(AVG(valor_diaria),2) FROM quartos WHERE tipo = 'Luxo';
